@@ -213,24 +213,60 @@ void Search(){
     return;
     
 }
+// Sorting the array
 
-void Sort(){
-    //UI
-    printf("----------------------------------------\n");
-    //Logic
-    printf("before:\n");
-    _print();
-    node* temp;
-    for (node* curr = head; curr != NULL; curr = curr->next){
-        if (curr->next != NULL && curr->data > curr->next->data){
-            temp->data = curr->next->data;
-            curr->next->data = curr->data;
-            curr->data = temp->data;
+// Getting the last node of the list
+node* last_node(){
+    node* temp = head;
+    while (temp != NULL && temp->next != NULL){
+        temp = temp->next;
+    }
+    return temp;
+}
+    //Putting the last node in ins proper position
+node* partition(node* first, node* last){
+    node* pivot = first;
+    node* front = first;
+    int temp = 0;
+    while (front != NULL && front != last){
+        if (front->data < last->data){
+            pivot = first;
+
+            //Swapping the node values
+            temp = first->data;
+            first->data = front->data;
+            front->data = temp;
+        
+            //Visiting the next node
+            first = first->next;
         }
 
+        //Visiting the next node
+        front = front->next;
     }
-    printf("after:\n");
-    _print();
+
+    //Change last node value to current node
+    temp = first->data;
+    first->data = last->data;
+    last->data = temp;
+    return pivot;
+}
+
+void Sort(node* first, node* last){
+
+    if (first == last) {
+        return;
+    }
+    node* pivot = partition(first, last);
+ 
+    if (pivot != NULL && pivot->next != NULL) {
+        Sort(pivot->next, last);
+    }
+ 
+    if (pivot != NULL && first != pivot) {
+        Sort(first, pivot);
+    }
+
 
 }
 
@@ -305,7 +341,9 @@ int main(){
                 Search();
                 break;
             case 9:
-                Sort();
+                Print();
+                Sort(head, last_node());
+                Print();
                 break;
             case 0:
                 printf("exiting...\n");
