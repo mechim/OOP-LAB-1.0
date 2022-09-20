@@ -47,7 +47,7 @@ void Append(){
     //UI
     printf("----------------------------------------\n");
     int x;
-    printf("type the value of the new node: ");
+    printf("type the value of the new node: \n");
     printf(" > ");
     scanf("%d", &x);
     //Logic
@@ -75,10 +75,10 @@ void Insert(){
     //UI
     printf("----------------------------------------\n");
     int pos, x;
-    printf("type the position of the new node: ");
+    printf("type the position of the new node: \n");
     printf(" > ");
     scanf("%d", &pos);
-    printf("type the value of the new node: ");
+    printf("type the value of the new node: \n");
     printf(" > ");
     scanf("%d", &x);
 
@@ -266,13 +266,75 @@ void Sort(node* first, node* last){
     if (pivot != NULL && first != pivot) {
         Sort(first, pivot);
     }
+}
 
+// Doubly linked list to traverse backwards
 
+typedef struct DoubleNode{
+    int data;
+    struct DoubleNode* next;
+    struct DoubleNode* prev;
+} dnode;
+
+dnode* dhead;
+
+void dAppend()
+{
+    //UI
+    printf("----------------------------------------\n");
+    int x;
+    printf("type the value of the new DLL node: \n");
+    printf(" > ");
+    scanf("%d", &x);
+    //Logic
+
+	dnode* new_node = (dnode*)malloc(sizeof(dnode));
+
+    dnode* last = dhead;
+
+	new_node->data = x;
+
+	new_node->next = NULL;
+    
+	if (dhead == NULL) {
+		new_node->prev = NULL;
+		dhead = new_node;
+		return;
+	}
+
+	while (last->next != NULL)
+		last = last->next;
+
+	last->next = new_node;
+
+	new_node->prev = last;
+
+	return;
+}
+
+void dPrint()
+{
+    
+    dnode* last;
+    dnode* node = dhead;
+    printf("\nTraversal in forward direction \n");
+    while (node != NULL) {
+        printf(" %d ", node->data);
+        last = node;
+        node = node->next;
+    }
+ 
+    printf("\nTraversal in reverse direction \n");
+    while (last != NULL) {
+        printf(" %d ", last->data);
+        last = last->prev;
+    }
 }
 
 int main(){
 
     head = NULL;
+    dhead = NULL;
     int choice1, choice2, number_of_elements;
     //logic variable
     int exit = 0;
@@ -300,10 +362,18 @@ int main(){
     case 3:
         Deserialize();
         break;
+    case 4:
+        printf("----------------------------------------\n");
+        printf("how many elements will your DLL have?\n");
+        printf(" > ");
+        scanf("%d",&number_of_elements);
+        for (int i = 0; i < number_of_elements; i++){
+            dAppend();
+        }
     default:
         break;
     }
-
+if (choice1 == 1 || choice1 == 3){
     while(exit == 0){
         printf("----------------------------------------\n");
         printf("what do you want to do next?\n [1] add a node to the nth position\n [2] append a node\n [3] prepend a node\n [4] delete a node\n [5] reverse\n [6] print\n [7] serialize\n [8] search\n [9] sort\n [0] exit\n");
@@ -353,5 +423,9 @@ int main(){
                 break;
             }
         }
+} else if (choice1 == 4){
+    dPrint();
+}
+    
     return 0;
 }
