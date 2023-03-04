@@ -2,7 +2,7 @@
 
 <h1>Old Fashioned Path</h1>
 
-<p>I implemented a linked list with all the minimum requirments for 5 points</p>
+<p>I implemented a <b>linked list</b> with all the minimum requirments for 5 points</p>
 <p>- Out of all the bonus tasks I implemented:</p>
 <ul>
     <li>Append (0.5 point)</li>
